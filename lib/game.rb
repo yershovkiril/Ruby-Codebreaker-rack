@@ -50,14 +50,15 @@ class Game
     guess.split('').each_with_index do |char, index|
       if char.eql? code_split[index]
         result << "+"
-	       code_split[index] = nil
+      code_split[index] = nil
       end
     end
     guess.split('').each_with_index do |char, index|
+      next if code_split[index] == nil
       if code_split.include? char
-      	 result << '-'
-      	 code_split.delete_at(code_split.index(char))
-      end
+      result << '-'
+        code_split[code_split.index(char)] = ''
+    end
     end
     result
   end
