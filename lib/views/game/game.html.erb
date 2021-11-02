@@ -1,0 +1,63 @@
+<div class="row">
+  <div class="col-md-12">
+    <% if @@game.game_results == Racker::WIN %> 
+      <h1>Congratulation, you are win!</h1>
+      <a href="/start" class='btn btn-success'>Play again</a>
+      <a href="#" data-toggle="modal" data-target="#save-modal" class='btn btn-success'>Save result</a>
+    <% elsif @@game.game_results == Racker::LOSE %>
+      <h1>Sorry, but unfortunately you lose!</h1>
+      <a href="/start" class='btn btn-success'>Play again</a>
+      <a href="#" data-toggle="modal" data-target="#save-modal" class='btn btn-success'>Save result</a>
+    <% else %>
+
+      <h1>Type four numbers between 1 and 6</h1>
+      <div class="row statistic-row">
+        <div class="col-md-12 statistic">
+            <li class="col-md-4 text col-md-offset-3">Attempts: <%= @@game.turns  %></li>
+            <li class="col-md-4 text">Hints: <span class="hint-counter"><%= @@game.hints %></span></li>
+            <li class="col-md-4 button"><a href="#myModal" data-toggle="modal" id='hint' class='btn btn-success'>Take a hint</a></li>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <p class="result"><%= @@game.game_results %></p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <form class="form-inline" method="post" action="/check_guess">
+            <div class="form-group">
+              <input name="guess" type="text" class="form-control" required = "required" placeholder="Enter a guess" pattern="[1-6]{4}">
+            </div>
+            <button type="submit" class="btn btn-primary">Check guess</button>
+          </form>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Hint - one of the numbers in secret code is...</h3>
+  </div>
+  <div class="modal-body">
+    <h1 class="show-hint"></h1>
+  </div>
+</div>
+
+<div class="modal fade" id="save-modal" role="dialog">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+    <h2>Save your result!</h2>
+  </div>
+  <div class="modal-body">
+    <form class="form-inline" method="post" action="/save">
+      <div class="form-group">
+        <input name="user_name" type="text" class="form-control" placeholder="Enter a your name" required>
+      </div>
+      <button type="submit" class="btn btn-default">Save!</button>
+    </form>
+  </div>
+</div>
